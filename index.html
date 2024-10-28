@@ -1,39 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adivinhe o número!</title>
     <link rel="stylesheet" href="static/css/style.css">
-    <script>
-        // Permite apenas a digitação de números
-        function allowOnlyNumbers(e) {
-            var charCode = (e.which) ? e.which : e.keyCode;
-            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-                e.preventDefault();
-            }
-        }
-
-        // Manipula o envio do formulário
-        async function handleSubmit(e) {
-            e.preventDefault();
-            const guess = document.querySelector('input[name="guess"]').value;
-            const response = await fetch('/guess', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ guess }),
-            });
-            const data = await response.json();
-            document.querySelector('.message').innerText = data.message;
-            document.querySelector('.attempts').innerText = `Tentativas: ${data.attempts}`;
-            document.querySelector('.level').innerText = `Dificuldade: ${data.level} (${data.difficulty} copos)`;
-        }
-    </script>
 </head>
 <body>
-    <div class='container'>
+    <div class="container">
         <div class="header">
             <h1>Tente adivinhar o número do copo que o esquilo está escondido!</h1>
             <img src="static/images/Esquilo.png" alt="Imagem">
@@ -46,5 +20,6 @@
             <button type="submit">Ok</button>
         </form>
     </div>
+    <script src="static/js/script.js"></script>
 </body>
 </html>
