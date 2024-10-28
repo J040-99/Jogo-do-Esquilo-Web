@@ -1,3 +1,6 @@
+let randomNumber = Math.floor(Math.random() * 5) + 1; // Gera um número aleatório entre 1 e 5
+let attempts = 5;
+
 // Permite apenas a digitação de números
 function allowOnlyNumbers(e) {
     var charCode = (e.which) ? e.which : e.keyCode;
@@ -7,18 +10,19 @@ function allowOnlyNumbers(e) {
 }
 
 // Manipula o envio do formulário
-async function handleSubmit(e) {
+function handleSubmit(e) {
     e.preventDefault();
     const guess = document.querySelector('input[name="guess"]').value;
-    const response = await fetch('/guess', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ guess }),
-    });
-    const data = await response.json();
-    document.querySelector('.message').innerText = data.message;
-    document.querySelector('.attempts').innerText = `Tentativas: ${data.attempts}`;
-    document.querySelector('.level').innerText = `Dificuldade: ${data.level} (${data.difficulty} copos)`;
+    
+    if (parseInt(guess) === randomNumber) {
+        window.location.href = 'templates/win.html'; // Redireciona para a página de vitória
+    } else {
+        attempts -= 1;
+        document.querySelector('.message').innerText = 'Tente novamente!';
+        document.querySelector('.attempts').innerText = `Tentativas: ${attempts}`;
+        if (attempts <= 0) {
+            document.querySelector('.message').innerText = 'Você perdeu! O número era ' + randomNumber;
+            document.querySelector('form').remove(); // Remove o formulário após as tentativas se esgotarem
+        }
+    }
 }
